@@ -1,0 +1,63 @@
+.background{
+  background-color: #E6E6FA	;
+}
+
+
+
+
+.hello {
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hello.route-changed {
+  animation: slideInFade 0.5s ease-in-out;
+}
+
+@keyframes slideInFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.hello.route-changed {
+  background: linear-gradient(45deg, transparent, rgba(0, 123, 255, 0.05), transparent);
+  background-size: 200% 200%;
+  animation: slideInFade 0.5s ease-in-out, backgroundShift 0.5s ease-in-out;
+}
+
+@keyframes backgroundShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Alternative: Apply to html and body for global effect */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;
+}
