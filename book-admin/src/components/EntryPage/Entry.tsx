@@ -25,7 +25,7 @@ ChartJS.register(
 )
 
 function User() {
-  // Chart data for book sales trend
+ 
   const salesData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
@@ -47,7 +47,7 @@ function User() {
   };
 
 
-  // Chart data for user statistics
+
   const userStatsData = {
     labels: ['Active Users', 'Inactive Users', 'New Users'],
     datasets: [

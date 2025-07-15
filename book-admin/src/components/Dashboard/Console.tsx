@@ -20,11 +20,11 @@ function Console() {
     if (component !== activeComponent) {
       setIsLoading(true)
       
-      // Simulate loading time
+     
       setTimeout(() => {
         setActiveComponent(component)
         setIsLoading(false)
-      }, 1000)
+      }, 500)
     }
   }
 

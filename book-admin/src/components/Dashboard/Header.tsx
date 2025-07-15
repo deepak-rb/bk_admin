@@ -8,7 +8,7 @@ const Header: React.FC = () => {
 
   return (
     <div className="header-container">
-      <nav className={`navbar navbar-expand-lg shadow navbar-light bg-white`}>
+      <nav className={`navbar navbar-expand-lg shadow-sm navbar-light bg-white`}>
         <div className="container-fluid">
           <button className="navbar-brand d-flex align-items-center text-decoration-none border-0 bg-transparent" type="button">
             <BookOpen className="me-2 text-primary" size={24} />
