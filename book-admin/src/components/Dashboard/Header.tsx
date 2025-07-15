@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {  User, Search,BookOpen } from 'lucide-react';
+import React from 'react';
+import {  User,BookOpen } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 import './Header.css';
@@ -10,13 +10,13 @@ const Header: React.FC = () => {
     <div className="header-container">
       <nav className={`navbar navbar-expand-lg shadow navbar-light bg-white`}>
         <div className="container-fluid">
-          <a className="navbar-brand d-flex align-items-center text-decoration-none" href="#">
+          <button className="navbar-brand d-flex align-items-center text-decoration-none border-0 bg-transparent" type="button">
             <BookOpen className="me-2 text-primary" size={24} />
             <div>
               <div className="fw-bold">Literary Ledger</div>
               <small className="text-muted">Admin Panel</small>
             </div>
-        </a>
+          </button>
 
  
 
