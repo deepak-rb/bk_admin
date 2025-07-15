@@ -12,7 +12,7 @@ import User from '../User/User'
 import './Console.css'
 
 function Console() {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeComponent, setActiveComponent] = useState('dashboard')
   const [isLoading, setIsLoading] = useState(false)
 

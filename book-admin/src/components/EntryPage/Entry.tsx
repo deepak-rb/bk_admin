@@ -36,8 +36,16 @@ function User() {
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         tension: 0.1,
       },
+      {
+        label: 'Book Rent',
+        data: [45, 39, 60, 71, 46, 85],
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.1,
+      },
     ],
-  }
+  };
+
 
   // Chart data for user statistics
   const userStatsData = {
@@ -74,7 +82,7 @@ function User() {
     <div className="user-dashboard">
       <div className="dashboard-header">
         <h1>Dashboard</h1>
-        {/* <p>Welcome to the Book Admin Dashboard</p> */}
+        
       </div>
       
       <div className="dashboard-stats">
