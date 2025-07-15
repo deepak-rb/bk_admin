@@ -18,20 +18,7 @@ const Header: React.FC = () => {
             </div>
         </a>
 
-       
-        <div className="d-none d-md-block mx-auto" style={{ maxWidth: '400px', width: '100%' }}>
-          <div className="input-group">
-            <span className="input-group-text">
-              <Search size={16} />
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search..."
-              value=""
-            />
-          </div>
-        </div>
+ 
 
       
         <div className="d-flex align-items-center ms-auto">
