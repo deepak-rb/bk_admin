@@ -1,4 +1,4 @@
-/* Loading Spinner Styles */
+
 .loading-container {
   display: flex;
   justify-content: center;
@@ -11,6 +11,7 @@
 .loading-spinner {
   text-align: center;
   color: #666;
+  font-weight: bolder;
 }
 
 .spinner {

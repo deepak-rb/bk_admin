@@ -11,7 +11,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   return (
     <div className="loading-container">
       <div className="loading-spinner">
-        <div className="spinner"></div>
+        <div className="spinner text-primary"></div>
         <p>{message}</p>
       </div>
     </div>
