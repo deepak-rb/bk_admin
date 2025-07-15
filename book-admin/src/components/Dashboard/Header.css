@@ -1,0 +1,20 @@
+/* Header specific styles */
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 60px;
+  min-height: 60px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header-container .navbar {
+  height: 60px;
+  min-height: 60px;
+}
+
+.header-container .container-fluid {
+  height: 100%;
+  align-items: center;
+}

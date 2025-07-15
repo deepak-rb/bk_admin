@@ -2,22 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import {  User, Search,BookOpen } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import './Header.css';
 
 const Header: React.FC = () => {
 
-
-
   return (
-    <nav className={`navbar navbar-expand-lg sticky-top shadow navbar-light bg-white`}>
-      <div className="container-fluid">
-
-     
-        <a className="navbar-brand d-flex align-items-center text-decoration-none" href="#">
-          <BookOpen className="me-2 text-primary" size={24} />
-          <div>
-            <div className="fw-bold">Literary Ledger</div>
-            <small className="text-muted">Admin Panel</small>
-          </div>
+    <div className="header-container">
+      <nav className={`navbar navbar-expand-lg shadow navbar-light bg-white`}>
+        <div className="container-fluid">
+          <a className="navbar-brand d-flex align-items-center text-decoration-none" href="#">
+            <BookOpen className="me-2 text-primary" size={24} />
+            <div>
+              <div className="fw-bold">Literary Ledger</div>
+              <small className="text-muted">Admin Panel</small>
+            </div>
         </a>
 
        
@@ -53,6 +51,7 @@ const Header: React.FC = () => {
         </div>
       </div>
     </nav>
+    </div>
   );
 };
 
