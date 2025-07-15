@@ -30,7 +30,7 @@ function Console() {
 
   const renderContent = () => {
     if (isLoading) {
-      return <LoadingSpinner message="Loading content..." />
+      return <LoadingSpinner message="Loading Content... Please Wait" />
     }
 
     switch (activeComponent) {
