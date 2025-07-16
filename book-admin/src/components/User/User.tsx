@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Trash2, Edit3, Ban, Plus, Search, Eye, BookOpen, ShoppingCart, User as UserIcon } from 'lucide-react'
+import { Ban, Plus } from 'lucide-react'
 import './User.css'
 
 interface User {
@@ -13,32 +13,10 @@ interface User {
   avatar: string
 }
 
-interface UserHistory {
-  type: 'rental' | 'purchase'
-  bookTitle: string
-  date: string
-  amount: number
-  status: string
-}
-
-interface UploadedBook {
-  id: number
-  title: string
-  genre: string
-  uploadDate: string
-  status: string
-  downloads: number
-}
-
 function User() {
   const [users, setUsers] = useState<User[]>([])
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [showModal, setShowModal] = useState(false)
-  const [showUserDetails, setShowUserDetails] = useState(false)
   const [modalType, setModalType] = useState<'create' | 'edit'>('create')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [userHistory, setUserHistory] = useState<UserHistory[]>([])
-  const [uploadedBooks, setUploadedBooks] = useState<UploadedBook[]>([])
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -46,13 +24,17 @@ function User() {
     status: 'active' as 'active' | 'banned'
   })
 
-  // Mock data initialization
+  
+
+
+
+
   useEffect(() => {
     const mockUsers: User[] = [
       {
         id: 1,
-        name: 'John Doe',
-        email: 'john@example.com',
+        name: 'asdasdasd',
+        email: 'assddds@example.com',
         role: 'user',
         status: 'active',
         joinDate: '2024-01-15',
@@ -61,8 +43,8 @@ function User() {
       },
       {
         id: 2,
-        name: 'Jane Smith',
-        email: 'jane@example.com',
+        name: 'Hello World',
+        email: 'HelloWor@asd.com',
         role: 'author',
         status: 'active',
         joinDate: '2024-02-20',
@@ -71,8 +53,8 @@ function User() {
       },
       {
         id: 3,
-        name: 'Mike Johnson',
-        email: 'mike@example.com',
+        name: 'CCTNSasd',
+        email: 'ctns@asddd.com',
         role: 'user',
         status: 'banned',
         joinDate: '2024-03-10',
@@ -89,23 +71,7 @@ function User() {
     setShowModal(true)
   }
 
-  const handleEditUser = (user: User) => {
-    setModalType('edit')
-    setSelectedUser(user)
-    setFormData({
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      status: user.status
-    })
-    setShowModal(true)
-  }
 
-  const handleDeleteUser = (userId: number) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      setUsers(users.filter(user => user.id !== userId))
-    }
-  }
 
   const handleBanUser = (userId: number) => {
     setUsers(users.map(user => 
@@ -127,44 +93,13 @@ function User() {
         avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=28a745&color=fff&size=40`
       }
       setUsers([...users, newUser])
-    } else if (selectedUser) {
-      setUsers(users.map(user => 
-        user.id === selectedUser.id 
-          ? { ...user, ...formData }
-          : user
-      ))
     }
     
     setShowModal(false)
     setFormData({ name: '', email: '', role: 'user', status: 'active' })
-    setSelectedUser(null)
   }
 
-  const handleViewUserDetails = (user: User) => {
-    setSelectedUser(user)
-    
-    // Mock user history data
-    const mockHistory: UserHistory[] = [
-      { type: 'purchase', bookTitle: 'React Guide', date: '2024-07-01', amount: 29.99, status: 'completed' },
-      { type: 'rental', bookTitle: 'JavaScript Basics', date: '2024-06-15', amount: 9.99, status: 'active' },
-      { type: 'purchase', bookTitle: 'TypeScript Handbook', date: '2024-05-20', amount: 39.99, status: 'completed' }
-    ]
-    
-    // Mock uploaded books data
-    const mockBooks: UploadedBook[] = [
-      { id: 1, title: 'Advanced React Patterns', genre: 'Technology', uploadDate: '2024-03-15', status: 'approved', downloads: 245 },
-      { id: 2, title: 'Modern CSS Techniques', genre: 'Design', uploadDate: '2024-04-20', status: 'pending', downloads: 0 }
-    ]
-    
-    setUserHistory(mockHistory)
-    setUploadedBooks(mockBooks)
-    setShowUserDetails(true)
-  }
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  )
 
   return (
     <div className="user-management">
@@ -174,18 +109,6 @@ function User() {
           <Plus size={16} />
           Add New User
         </button>
-      </div>
-
-      <div className="search-section">
-        <div className="search-box">
-          <Search size={20} />
-          <input
-            type="text"
-            placeholder="Search users by name or email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
       </div>
 
       <div className="users-table-container">
@@ -202,7 +125,7 @@ function User() {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map(user => (
+            {users.map(user => (
               <tr key={user.id}>
                 <td>
                   <div className="user-info">
@@ -226,32 +149,11 @@ function User() {
                 <td>
                   <div className="action-buttons">
                     <button
-                      className="btn btn-sm btn-info"
-                      onClick={() => handleViewUserDetails(user)}
-                      title="View Details"
-                    >
-                      <Eye size={14} />
-                    </button>
-                    <button
-                      className="btn btn-sm btn-warning"
-                      onClick={() => handleEditUser(user)}
-                      title="Edit User"
-                    >
-                      <Edit3 size={14} />
-                    </button>
-                    <button
                       className={`btn btn-sm ${user.status === 'active' ? 'btn-danger' : 'btn-success'}`}
                       onClick={() => handleBanUser(user.id)}
                       title={user.status === 'active' ? 'Ban User' : 'Unban User'}
                     >
                       <Ban size={14} />
-                    </button>
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => handleDeleteUser(user.id)}
-                      title="Delete User"
-                    >
-                      <Trash2 size={14} />
                     </button>
                   </div>
                 </td>
@@ -261,11 +163,15 @@ function User() {
         </table>
       </div>
 
-      {/* Create/Edit User Modal */}
+
+
+
+
+
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>{modalType === 'create' ? 'Create New User' : 'Edit User'}</h2>
+            <h2>Create New User</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Name</label>
@@ -311,126 +217,10 @@ function User() {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  {modalType === 'create' ? 'Create User' : 'Update User'}
+                  Create User
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* User Details Modal */}
-      {showUserDetails && selectedUser && (
-        <div className="modal-overlay">
-          <div className="modal-content user-details-modal">
-            <h2>User Details: {selectedUser.name}</h2>
-            
-            <div className="user-details-tabs">
-              <div className="tab-content">
-                <div className="user-info-section">
-                  <h3>Basic Information</h3>
-                  <div className="info-grid">
-                    <div className="info-item">
-                      <label>Name:</label>
-                      <span>{selectedUser.name}</span>
-                    </div>
-                    <div className="info-item">
-                      <label>Email:</label>
-                      <span>{selectedUser.email}</span>
-                    </div>
-                    <div className="info-item">
-                      <label>Role:</label>
-                      <span className={`role-badge ${selectedUser.role}`}>
-                        {selectedUser.role}
-                      </span>
-                    </div>
-                    <div className="info-item">
-                      <label>Status:</label>
-                      <span className={`status-badge ${selectedUser.status}`}>
-                        {selectedUser.status}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="history-section">
-                  <h3><ShoppingCart size={20} /> Purchase & Rental History</h3>
-                  <div className="history-table-container">
-                    <table className="history-table">
-                      <thead>
-                        <tr>
-                          <th>Type</th>
-                          <th>Book Title</th>
-                          <th>Date</th>
-                          <th>Amount</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {userHistory.map((item, index) => (
-                          <tr key={index}>
-                            <td>
-                              <span className={`type-badge ${item.type}`}>
-                                {item.type}
-                              </span>
-                            </td>
-                            <td>{item.bookTitle}</td>
-                            <td>{item.date}</td>
-                            <td>${item.amount}</td>
-                            <td>
-                              <span className={`status-badge ${item.status}`}>
-                                {item.status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="uploaded-books-section">
-                  <h3><BookOpen size={20} /> Uploaded Books</h3>
-                  <div className="books-table-container">
-                    <table className="books-table">
-                      <thead>
-                        <tr>
-                          <th>Title</th>
-                          <th>Genre</th>
-                          <th>Upload Date</th>
-                          <th>Status</th>
-                          <th>Downloads</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {uploadedBooks.map(book => (
-                          <tr key={book.id}>
-                            <td>{book.title}</td>
-                            <td>{book.genre}</td>
-                            <td>{book.uploadDate}</td>
-                            <td>
-                              <span className={`status-badge ${book.status}`}>
-                                {book.status}
-                              </span>
-                            </td>
-                            <td>{book.downloads}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-actions">
-              <button
-                className="btn btn-secondary"
-                onClick={() => setShowUserDetails(false)}
-              >
-                Close
-              </button>
-            </div>
           </div>
         </div>
       )}

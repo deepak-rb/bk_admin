@@ -24,7 +24,7 @@ function Console() {
       setTimeout(() => {
         setActiveComponent(component)
         setIsLoading(false)
-      }, 1000)
+      }, 100)
     }
   }
 
