@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Ban, Plus } from 'lucide-react'
+import { Ban, Plus, Edit, Trash2 } from 'lucide-react'
+import AddUser from './AddUser'
+import EditUser from './EditUser'
+import DeleteConfirmation from './DeleteConfirmation'
 import './User.css'
 
 interface User {
@@ -15,14 +18,11 @@ interface User {
 
 function User() {
   const [users, setUsers] = useState<User[]>([])
-  const [showModal, setShowModal] = useState(false)
-  const [modalType, setModalType] = useState<'create' | 'edit'>('create')
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    role: 'user',
-    status: 'active' as 'active' | 'banned'
-  })
+  const [showAddUser, setShowAddUser] = useState(false)
+  const [showEditUser, setShowEditUser] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
+  const [userToDelete, setUserToDelete] = useState<User | null>(null)
 
   
 
@@ -66,9 +66,52 @@ function User() {
   }, [])
 
   const handleCreateUser = () => {
-    setModalType('create')
-    setFormData({ name: '', email: '', role: 'user', status: 'active' })
-    setShowModal(true)
+    setShowAddUser(true)
+  }
+
+  const handleUserCreated = (newUser: User) => {
+    setUsers([...users, newUser])
+    setShowAddUser(false)
+  }
+
+  const handleCancelAddUser = () => {
+    setShowAddUser(false)
+  }
+
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user)
+    setShowEditUser(true)
+  }
+
+  const handleUserUpdated = (updatedUser: User) => {
+    setUsers(users.map(user => 
+      user.id === updatedUser.id ? updatedUser : user
+    ))
+    setShowEditUser(false)
+    setSelectedUser(null)
+  }
+
+  const handleCancelEditUser = () => {
+    setShowEditUser(false)
+    setSelectedUser(null)
+  }
+
+  const handleDeleteUser = (user: User) => {
+    setUserToDelete(user)
+    setShowDeleteConfirmation(true)
+  }
+
+  const confirmDeleteUser = () => {
+    if (userToDelete) {
+      setUsers(users.filter(u => u.id !== userToDelete.id))
+      setShowDeleteConfirmation(false)
+      setUserToDelete(null)
+    }
+  }
+
+  const cancelDeleteUser = () => {
+    setShowDeleteConfirmation(false)
+    setUserToDelete(null)
   }
 
 
@@ -81,148 +124,105 @@ function User() {
     ))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (modalType === 'create') {
-      const newUser: User = {
-        id: Date.now(),
-        ...formData,
-        joinDate: new Date().toISOString().split('T')[0],
-        lastActive: new Date().toISOString().split('T')[0],
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=28a745&color=fff&size=40`
-      }
-      setUsers([...users, newUser])
-    }
-    
-    setShowModal(false)
-    setFormData({ name: '', email: '', role: 'user', status: 'active' })
-  }
-
 
 
   return (
     <div className="user-management">
-      <div className="user-header">
-        <h1>User Management</h1>
-        <button className="btn btn-primary" onClick={handleCreateUser}>
-          <Plus size={16} />
-          Add New User
-        </button>
-      </div>
-
-      <div className="users-table-container">
-        <table className="users-table">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Join Date</th>
-              <th>Last Active</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user.id}>
-                <td>
-                  <div className="user-info">
-                    <img src={user.avatar} alt={user.name} className="user-avatar" />
-                    <span>{user.name}</span>
-                  </div>
-                </td>
-                <td>{user.email}</td>
-                <td>
-                  <span className={`role-badge ${user.role}`}>
-                    {user.role}
-                  </span>
-                </td>
-                <td>
-                  <span className={`status-badge ${user.status}`}>
-                    {user.status}
-                  </span>
-                </td>
-                <td>{user.joinDate}</td>
-                <td>{user.lastActive}</td>
-                <td>
-                  <div className="action-buttons">
-                    <button
-                      className={`btn btn-sm ${user.status === 'active' ? 'btn-danger' : 'btn-success'}`}
-                      onClick={() => handleBanUser(user.id)}
-                      title={user.status === 'active' ? 'Ban User' : 'Unban User'}
-                    >
-                      <Ban size={14} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-
-
-
-
-
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Create New User</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Name</label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Role</label>
-                <select
-                  value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
-                >
-                  <option value="user">User</option>
-                  <option value="author">Author</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label>Status</label>
-                <select
-                  value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value as 'active' | 'banned'})}
-                >
-                  <option value="active">Active</option>
-                  <option value="banned">Banned</option>
-                </select>
-              </div>
-              <div className="modal-actions">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Create User
-                </button>
-              </div>
-            </form>
+      {showAddUser ? (
+        <AddUser 
+          onUserCreated={handleUserCreated}
+          onCancel={handleCancelAddUser}
+        />
+      ) : showEditUser && selectedUser ? (
+        <EditUser 
+          user={selectedUser}
+          onUserUpdated={handleUserUpdated}
+          onCancel={handleCancelEditUser}
+        />
+      ) : (
+        <>
+          <div className="user-header">
+            <h1>User Management</h1>
+            <button className="btn btn-primary" onClick={handleCreateUser}>
+              <Plus size={16} />
+              Add New User
+            </button>
           </div>
-        </div>
+
+          <div className="users-table-container">
+            <table className="users-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Join Date</th>
+                  <th>Last Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(user => (
+                  <tr key={user.id}>
+                    <td>
+                      <div className="user-info">
+                        <img src={user.avatar} alt={user.name} className="user-avatar" />
+                        <span>{user.name}</span>
+                      </div>
+                    </td>
+                    <td>{user.email}</td>
+                    <td>
+                      <span className={`role-badge ${user.role}`}>
+                        {user.role}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`status-badge ${user.status}`}>
+                        {user.status}
+                      </span>
+                    </td>
+                    <td>{user.joinDate}</td>
+                    <td>{user.lastActive}</td>
+                    <td>
+                      <div className="action-buttons">
+                        <button
+                          className="btn btn-sm btn-info"
+                          onClick={() => handleEditUser(user)}
+                          title="Edit User"
+                        >
+                          <Edit size={14} />
+                        </button>
+                        <button
+                          className={`btn btn-sm ${user.status === 'active' ? 'btn-danger' : 'btn-success'}`}
+                          onClick={() => handleBanUser(user.id)}
+                          title={user.status === 'active' ? 'Ban User' : 'Unban User'}
+                        >
+                          <Ban size={14} />
+                        </button>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDeleteUser(user)}
+                          title="Delete User"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+      
+      {showDeleteConfirmation && userToDelete && (
+        <DeleteConfirmation
+          userName={userToDelete.name}
+          onConfirm={confirmDeleteUser}
+          onCancel={cancelDeleteUser}
+        />
       )}
     </div>
   )
