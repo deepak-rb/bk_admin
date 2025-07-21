@@ -7,6 +7,12 @@ interface User {
   id: number
   name: string
   email: string
+  username: string
+  phoneNumber: string
+  pincode: string
+  district: string
+  state: string
+  country: string
   role: string
   status: 'active' | 'banned'
   joinDate: string
@@ -23,17 +29,25 @@ function AddUser({ onUserCreated, onCancel }: AddUserProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    username: '',
+    phoneNumber: '',
+    pincode: '',
+    district: '',
+    state: '',
+    country: '',
     role: 'user',
     status: 'active' as 'active' | 'banned'
   })
 
   const [errors, setErrors] = useState({
     name: '',
-    email: ''
+    email: '',
+    username: '',
+    phoneNumber: ''
   })
 
   const validateForm = () => {
-    const newErrors = { name: '', email: '' }
+    const newErrors = { name: '', email: '', username: '', phoneNumber: '' }
     let isValid = true
 
     if (!formData.name.trim()) {
@@ -46,6 +60,22 @@ function AddUser({ onUserCreated, onCancel }: AddUserProps) {
       isValid = false
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid'
+      isValid = false
+    }
+
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required'
+      isValid = false
+    } else if (formData.username.length < 3) {
+      newErrors.username = 'Username must be at least 3 characters'
+      isValid = false
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required'
+      isValid = false
+    } else if (!/^\d{10}$/.test(formData.phoneNumber.replace(/\D/g, ''))) {
+      newErrors.phoneNumber = 'Phone number must be 10 digits'
       isValid = false
     }
 
@@ -69,7 +99,18 @@ function AddUser({ onUserCreated, onCancel }: AddUserProps) {
     }
 
     onUserCreated(newUser)
-    setFormData({ name: '', email: '', role: 'user', status: 'active' })
+    setFormData({ 
+      name: '', 
+      email: '', 
+      username: '', 
+      phoneNumber: '', 
+      pincode: '', 
+      district: '', 
+      state: '', 
+      country: '', 
+      role: 'user', 
+      status: 'active' 
+    })
   }
 
   return (
@@ -110,6 +151,82 @@ function AddUser({ onUserCreated, onCancel }: AddUserProps) {
                 placeholder="Enter user's email address"
               />
               {errors.email && <span className="error-message">{errors.email}</span>}
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="username">Username *</label>
+              <input
+                id="username"
+                type="text"
+                value={formData.username}
+                onChange={(e) => setFormData({...formData, username: e.target.value})}
+                className={errors.username ? 'error' : ''}
+                placeholder="Enter username"
+              />
+              {errors.username && <span className="error-message">{errors.username}</span>}
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Phone Number *</label>
+              <input
+                id="phoneNumber"
+                type="tel"
+                value={formData.phoneNumber}
+                onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
+                className={errors.phoneNumber ? 'error' : ''}
+                placeholder="Enter phone number"
+              />
+              {errors.phoneNumber && <span className="error-message">{errors.phoneNumber}</span>}
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="pincode">Pincode</label>
+              <input
+                id="pincode"
+                type="text"
+                value={formData.pincode}
+                onChange={(e) => setFormData({...formData, pincode: e.target.value})}
+                placeholder="Enter pincode"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="district">District</label>
+              <input
+                id="district"
+                type="text"
+                value={formData.district}
+                onChange={(e) => setFormData({...formData, district: e.target.value})}
+                placeholder="Enter district"
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="state">State</label>
+              <input
+                id="state"
+                type="text"
+                value={formData.state}
+                onChange={(e) => setFormData({...formData, state: e.target.value})}
+                placeholder="Enter state"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="country">Country</label>
+              <input
+                id="country"
+                type="text"
+                value={formData.country}
+                onChange={(e) => setFormData({...formData, country: e.target.value})}
+                placeholder="Enter country"
+              />
             </div>
           </div>
 

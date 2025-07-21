@@ -9,6 +9,12 @@ interface User {
   id: number
   name: string
   email: string
+  username: string
+  phoneNumber: string
+  pincode: string
+  district: string
+  state: string
+  country: string
   role: string
   status: 'active' | 'banned'
   joinDate: string
@@ -35,6 +41,12 @@ function User() {
         id: 1,
         name: 'asdasdasd',
         email: 'assddds@example.com',
+        username: 'asdasd123',
+        phoneNumber: '1234567890',
+        pincode: '123456',
+        district: 'Sample District',
+        state: 'Sample State',
+        country: 'Sample Country',
         role: 'user',
         status: 'active',
         joinDate: '2024-01-15',
@@ -45,6 +57,12 @@ function User() {
         id: 2,
         name: 'Hello World',
         email: 'HelloWor@asd.com',
+        username: 'helloworld',
+        phoneNumber: '9876543210',
+        pincode: '654321',
+        district: 'Metro District',
+        state: 'Metro State',
+        country: 'Demo Country',
         role: 'author',
         status: 'active',
         joinDate: '2024-02-20',
@@ -55,6 +73,12 @@ function User() {
         id: 3,
         name: 'CCTNSasd',
         email: 'ctns@asddd.com',
+        username: 'cctnsuser',
+        phoneNumber: '5555555555',
+        pincode: '111111',
+        district: 'Test District',
+        state: 'Test State',
+        country: 'Test Country',
         role: 'user',
         status: 'banned',
         joinDate: '2024-03-10',
